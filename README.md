@@ -112,5 +112,11 @@ var path = require("path");
  
  
 ## Task 5. Incorporate the form from Lab 6:
- * Refactor lab to use the form in Lab 6. You will need to change the action in Lab 6 version to **action="javascript:void(0);"**
- * For simpliciy during development, it is ok to place the CSS in an HTML \<style\> tag.  
+ * In order to return files along with the HTML create a directory called **public** and move **index.html** into it.
+ * In **public** directory, create a file called **execute.js** and cut/paste your Javascript code into it.
+ * Add the following line in **add.js**
+ ````
+ app.use(express.static("public"));
+ ````
+ * Add the **src** attribute in the HTML file to run your Javasctipt file.
+ * Refactor lab to use the form in Lab 6. You will need to change the action in Lab 6 version to **action="javascript:void(0);"**  
