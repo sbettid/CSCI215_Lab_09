@@ -50,13 +50,67 @@ var path = require("path");
     res.sendFile(path.join(__dirname+'/index.html'));
 });
 ````
+ * On the same level as **app.js** create an HTML file named **index.html** and put the folling text in:
+ ````
+ <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>My home page from route</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+</head>
+<body>
 
+<form action="javascript:void(0);">
+    First name: <input id="firstname" type="text" name="fname"><br>
+    Last name: <input id="lastname" type="text" name="lname"><br>
+    <input id="submitButton" type="submit" value="Submit">
+</form>
+<div id="myDiv"></div>
+
+</body>
+
+</html>
+````
+ * Restart the node server. Test to ensure the **index.html** file is being displayed in the browser.
+ 
+**Note: We will be using jquery for our AJAX calls**
 ## Task 3. Setup basic AJAX call:
- *
- 
-## Task 4:
- 
- 
-## Task 5:
+**Note: To reduce complexity, we are going to put our Javascript and jquery in a \<script\> tag**
+ * Add the following code after \</body\> tag:
+ ````
+<script>
+    $("#submitButton").click(function(){
+        var firstName = document.getElementById("firstname").value;
+        var lastName = document.getElementById("lastname").value;
 
-
+        $.post("/myPost",
+            {
+                firstname: firstName,
+                lastname: lastName
+            },
+            function(data, status){
+                alert("Data: " + data.testdata + "\nStatus: " + status);
+            });
+    });
+</script>
+````
+ * Add a post route called **myPost** in **app.js**
+ ````
+ app.post('/myPost', function(req, res) {
+    console.log('post called. Returning data');
+    console.log(req.body.firstname);
+    console.log(req.body.lastname);
+    res.json({"testdata" : "This is data."});
+});
+````
+ * Restart the node server. Test form to ensure that first and last names are being written to server console and a test data alert pops up on web browser.
+ 
+## Task 4. Adjust JSON:
+ * Adjust the payload that is returned from /myPost route to return a JSON object that has key of fullname and the value is a concatanation of the firstname and lastname values that come in with the request.
+ * Ajust the AJAX callback function to populate the **myDiv** tag with the fullname rather than alert pop up.
+ 
+ 
+## Task 5. Incorporate the form from Lab 6:
+ * Refactor lab to use the form in Lab 6. You will need to change the action in Lab 6 version to **action="javascript:void(0);"**
+ * For simpliciy during development, it is ok to place the CSS in an HTML \<style\> tag.  
